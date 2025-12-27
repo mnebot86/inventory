@@ -22,9 +22,10 @@ const MainLayout = () => {
   return (
     <Tabs
       screenOptions={{
-        headerShown: false,
         tabBarActiveTintColor: '#0a7ea4',
         tabBarInactiveTintColor: '#8e8e93',
+        headerLargeTitle: true,
+        headerTitleAlign: 'left',
       }}
     >
       <Tabs.Screen
