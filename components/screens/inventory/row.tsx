@@ -27,8 +27,10 @@ export const InventoryRow = ({ item, onPress }: Props) => {
           </ThemedText>
 
           <ThemedText style={styles.price}>
-            ${item.cost.toFixed(2)}
-            {item.price && ` → $${item.price.toFixed(2)}`}
+            ${item.purchase_price.toFixed(2)}
+            {item.selling_price !== null && item.selling_price !== undefined
+              ? ` → $${item.selling_price.toFixed(2)}`
+              : ''}
           </ThemedText>
         </ThemedView>
       )}
