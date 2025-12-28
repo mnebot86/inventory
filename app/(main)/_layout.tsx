@@ -1,8 +1,7 @@
 import { Redirect, Tabs } from 'expo-router';
 import { ActivityIndicator, Text, View } from 'react-native';
 import { useAuthStore } from '@/store/auth.store';
-import { Package, BarChart3, User, Plus } from 'lucide-react-native';
-import { Button } from '@/components/themed-button';
+import { Package, BarChart3, User } from 'lucide-react-native';
 
 const MainLayout = () => {
   const { session, isLoading } = useAuthStore();
@@ -20,10 +19,6 @@ const MainLayout = () => {
     return <Redirect href="/(auth)/login" />;
   }
 
-  const routeAddItem = () => {
-    router.push('/inventory/add');
-  };
-
   return (
     <Tabs
       screenOptions={{
@@ -33,20 +28,13 @@ const MainLayout = () => {
       }}
     >
       <Tabs.Screen
-        name="inventory/index"
+        name="inventory"
         options={{
           title: 'Inventory',
           tabBarLabel: 'Inventory',
           tabBarIcon: ({ color, size }) => (
             <Package color={color} size={size} />
           ),
-          // headerRight: () => (
-          //   <Button
-          //     title="Add"
-          //     icon={<Plus size={18} color="#fff" />}
-          //     onPress={onAdd}
-          //   />
-          // )
         }}
       />
 
