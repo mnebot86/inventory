@@ -16,6 +16,7 @@ export const InventoryList = ({ items }: Props) => {
       )}
       estimatedItemSize={84}
       contentContainerStyle={{ padding: 16 }}
+      contentInsetAdjustmentBehavior="automatic"
     />
   );
 };

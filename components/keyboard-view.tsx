@@ -23,6 +23,7 @@ export const KeyboardScreen = ({
     >
       <ScrollView
         contentContainerStyle={[styles.container, contentContainerStyle]}
+        contentInsetAdjustmentBehavior="automatic"
         keyboardShouldPersistTaps="handled"
       >
         {children}

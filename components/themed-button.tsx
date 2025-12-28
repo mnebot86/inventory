@@ -1,38 +1,48 @@
-import React from 'react';
-import { Pressable, StyleSheet } from 'react-native';
+import React, { ReactNode } from 'react';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { ThemedText } from '@/components/themed-text';
 import { useThemeColor } from '@/hooks/use-theme-color';
 
-export const Button = ({
-  title,
-  onPress,
-}: {
-  title: string;
+type ButtonProps = {
+  title?: string;
+  icon?: ReactNode;
   onPress: () => void;
-}) => {
-  const background = useThemeColor({}, 'tint');
+};
+
+export const Button = ({ title, icon, onPress }: ButtonProps) => {
+  const tint = useThemeColor({}, 'tint');
 
   return (
     <Pressable
       onPress={onPress}
+      hitSlop={10}
       style={({ pressed }) => [
         styles.button,
         {
-          backgroundColor: background,
+          backgroundColor: title ? tint : 'transparent',
           opacity: pressed ? 0.6 : 1,
         },
       ]}
     >
-      <ThemedText style={styles.text}>{title}</ThemedText>
+      <View style={styles.content}>
+        {icon}
+        {title ? <ThemedText style={styles.text}>{title}</ThemedText> : null}
+      </View>
     </Pressable>
   );
 };
 
 const styles = StyleSheet.create({
   button: {
-    padding: 14,
     borderRadius: 8,
+    padding: 8,
     alignItems: 'center',
+    justifyContent: 'center',
+  },
+  content: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
   },
   text: {
     fontWeight: '600',
