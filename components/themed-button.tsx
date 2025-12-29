@@ -7,15 +7,17 @@ type ButtonProps = {
   title?: string;
   icon?: ReactNode;
   onPress: () => void;
+  disabled?: boolean;
 };
 
-export const Button = ({ title, icon, onPress }: ButtonProps) => {
+export const Button = ({ title, icon, onPress, disabled }: ButtonProps) => {
   const tint = useThemeColor({}, 'tint');
 
   return (
     <Pressable
       onPress={onPress}
       hitSlop={10}
+      disabled={disabled}
       style={({ pressed }) => [
         styles.button,
         {

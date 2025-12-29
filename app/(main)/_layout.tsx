@@ -1,5 +1,6 @@
 import { Redirect, Tabs } from 'expo-router';
 import { ActivityIndicator, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuthStore } from '@/store/auth.store';
 import { Package, BarChart3, User } from 'lucide-react-native';
 
@@ -20,48 +21,50 @@ const MainLayout = () => {
   }
 
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: '#0a7ea4',
-        tabBarInactiveTintColor: '#8e8e93',
-        headerShown: false,
-      }}
-    >
-      <Tabs.Screen
-        name="inventory"
-        options={{
-          title: 'Inventory',
-          tabBarLabel: 'Inventory',
-          tabBarIcon: ({ color, size }) => (
-            <Package color={color} size={size} />
-          ),
+    <SafeAreaView style={{ flex: 1 }}>
+      <Tabs
+        screenOptions={{
+          tabBarActiveTintColor: '#0a7ea4',
+          tabBarInactiveTintColor: '#8e8e93',
+          headerShown: false,
         }}
-      />
+      >
+        <Tabs.Screen
+          name="inventory"
+          options={{
+            title: 'Inventory',
+            tabBarLabel: 'Inventory',
+            tabBarIcon: ({ color, size }) => (
+              <Package color={color} size={size} />
+            ),
+          }}
+        />
 
-      <Tabs.Screen
-        name="analytics/index"
-        options={{
-          title: 'Analytics',
-          tabBarLabel: 'Analytics',
-          headerShown: true,
-          tabBarIcon: ({ color, size }) => (
-            <BarChart3 color={color} size={size} />
-          ),
-        }}
-      />
+        <Tabs.Screen
+          name="analytics/index"
+          options={{
+            title: 'Analytics',
+            tabBarLabel: 'Analytics',
+            headerShown: true,
+            tabBarIcon: ({ color, size }) => (
+              <BarChart3 color={color} size={size} />
+            ),
+          }}
+        />
 
-      <Tabs.Screen
-        name="profile/index"
-        options={{
-          title: 'Profile',
-          tabBarLabel: 'Profile',
-          headerShown: true,
-          tabBarIcon: ({ color, size }) => (
-            <User color={color} size={size} />
-          ),
-        }}
-      />
-    </Tabs>
+        <Tabs.Screen
+          name="profile/index"
+          options={{
+            title: 'Profile',
+            tabBarLabel: 'Profile',
+            headerShown: true,
+            tabBarIcon: ({ color, size }) => (
+              <User color={color} size={size} />
+            ),
+          }}
+        />
+      </Tabs>
+    </SafeAreaView>
   );
 };
 
