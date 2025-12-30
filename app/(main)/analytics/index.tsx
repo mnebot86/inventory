@@ -1,41 +1,95 @@
-import { StyleSheet } from 'react-native';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
+import { Alert, ScrollView } from 'react-native';
 import { layout } from '@/styles/layout';
+import { useCallback, useState } from 'react';
+import { useFocusEffect } from 'expo-router';
+import {
+  getTotalItems,
+  getTotalInvested,
+  getPotentialRevenue,
+  getEstimatedProfit,
+} from '@/services/analytics';
+import { AnalyticsStatCard } from '@/components/screens/analytics';
 
 const AnalyticsScreen = () => {
+  const [totalItems, setTotalItems] = useState<number | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  const [totalInvested, setTotalInvested] = useState<number | null>(null);
+  const [potentialRevenue, setPotentialRevenue] = useState<number | null>(null);
+  const [estimatedProfit, setEstimatedProfit] = useState<number | null>(null);
+
+  useFocusEffect(
+    useCallback(() => {
+      let isActive = true;
+
+      const loadAnalytics = async () => {
+        try {
+          setLoading(true);
+
+          const [
+            items,
+            invested,
+            revenue,
+            profit,
+          ] = await Promise.all([
+            getTotalItems(),
+            getTotalInvested(),
+            getPotentialRevenue(),
+            getEstimatedProfit(),
+          ]);
+
+          if (isActive) {
+            setTotalItems(items);
+            setTotalInvested(invested);
+            setPotentialRevenue(revenue);
+            setEstimatedProfit(profit);
+          }
+        } catch {
+          Alert.alert('Error', 'Failed to load analytics');
+        } finally {
+          if (isActive) {
+            setLoading(false);
+          }
+        }
+      };
+
+      loadAnalytics();
+
+      return () => {
+        isActive = false;
+      };
+    }, [])
+  );
+
   return (
-    <ThemedView style={layout.screen}>
-      <ThemedView style={styles.container}>
-        <ThemedText type="title">Analytics</ThemedText>
+    <ScrollView
+      contentInsetAdjustmentBehavior="automatic"
+      contentContainerStyle={layout.screen}
+    >
+      <AnalyticsStatCard
+        label="Total Items"
+        value={totalItems}
+        isLoading={loading}
+      />
+      <AnalyticsStatCard
+        label="Total Invested"
+        value={totalInvested}
+        isLoading={loading}
+      />
 
-        <ThemedText style={styles.subtitle}>
-          No analytics available yet.
-        </ThemedText>
+      <AnalyticsStatCard
+        label="Potential Revenue"
+        value={potentialRevenue}
+        isLoading={loading}
+      />
 
-        <ThemedText style={styles.helper}>
-          Once you start adding and selling inventory, you’ll see insights like
-          profit, best sellers, and trends here.
-        </ThemedText>
-      </ThemedView>
-    </ThemedView>
+      <AnalyticsStatCard
+        label="Estimated Profit"
+        value={estimatedProfit}
+        isLoading={loading}
+      />
+    </ScrollView>
   );
 };
 
 export default AnalyticsScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    gap: 12,
-  },
-  subtitle: {
-    fontSize: 16,
-    fontWeight: '500',
-  },
-  helper: {
-    fontSize: 14,
-    opacity: 0.7,
-  },
-});

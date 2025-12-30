@@ -126,3 +126,26 @@ export const updateInventoryItem = async (
 
   return fetchInventoryItemById(id);
 };
+
+export const deleteInventoryItem = async (id: string) => {
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+
+  if (userError || !user) {
+    throw new Error('User not authenticated');
+  }
+
+  const { error } = await supabase
+    .from('inventory_items')
+    .delete()
+    .eq('id', id)
+    .eq('user_id', user.id);
+
+  if (error) {
+    throw error;
+  }
+
+  return true;
+};

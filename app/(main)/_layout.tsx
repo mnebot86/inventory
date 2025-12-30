@@ -41,11 +41,11 @@ const MainLayout = () => {
         />
 
         <Tabs.Screen
-          name="analytics/index"
+          name="analytics"
           options={{
             title: 'Analytics',
             tabBarLabel: 'Analytics',
-            headerShown: true,
+            headerShown: false,
             tabBarIcon: ({ color, size }) => (
               <BarChart3 color={color} size={size} />
             ),

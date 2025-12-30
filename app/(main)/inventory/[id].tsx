@@ -11,6 +11,7 @@ import { layout } from '@/styles/layout';
 import {
   fetchInventoryItemById,
   updateInventoryItem,
+  deleteInventoryItem
 } from '@/services/inventory';
 import { InventoryItem } from '@/interfaces/inventory';
 
@@ -81,6 +82,28 @@ const InventoryItemScreen = () => {
     router,
   ]);
 
+  const handleDelete = () => {
+    Alert.alert(
+      'Delete Item',
+      'Are you sure you want to delete this item? This cannot be undone.',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await deleteInventoryItem(id);
+              router.replace('/(main)/inventory');
+            } catch (error) {
+              Alert.alert('Error', 'Failed to delete item.');
+            }
+          },
+        },
+      ]
+    );
+  };
+
   useLayoutEffect(() => {
     navigation.setOptions({
       title: item?.name ?? 'Item',
@@ -145,6 +168,7 @@ const InventoryItemScreen = () => {
     <ThemedView style={[layout.screen, { paddingTop: headerHeight }]}>
       <View style={[layout.section, { marginTop: 16 }]}>
         <ThemedText type="subtitle">Name</ThemedText>
+
         {isEditing ? (
           <TextInput
             value={name}
@@ -159,6 +183,7 @@ const InventoryItemScreen = () => {
 
       <View style={layout.section}>
         <ThemedText type="subtitle">Category</ThemedText>
+
         {isEditing ? (
           <TextInput
             value={category}
@@ -188,6 +213,7 @@ const InventoryItemScreen = () => {
 
       <View style={layout.section}>
         <ThemedText type="subtitle">Purchase Price</ThemedText>
+
         {isEditing ? (
           <TextInput
             value={purchasePrice}
@@ -203,6 +229,7 @@ const InventoryItemScreen = () => {
 
       <View style={layout.section}>
         <ThemedText type="subtitle">Selling Price</ThemedText>
+
         {isEditing ? (
           <TextInput
             value={sellingPrice}
@@ -219,6 +246,16 @@ const InventoryItemScreen = () => {
           </ThemedText>
         )}
       </View>
+
+      {isEditing && (
+        <View style={{ marginTop: 32 }}>
+          <Button
+            title="Delete Item"
+            variant="danger"
+            onPress={handleDelete}
+          />
+        </View>
+      )}
     </ThemedView>
   );
 };

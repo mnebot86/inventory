@@ -1,7 +1,7 @@
 
 
 import { Stack, useRouter } from 'expo-router';
-import { Plus } from 'lucide-react-native';
+import { BarChart3, Plus } from 'lucide-react-native';
 import { Button } from '@/components/themed-button';
 
 const InventoryLayout = () => {
@@ -17,19 +17,7 @@ const InventoryLayout = () => {
       <Stack.Screen
         name="index"
         options={{
-          title: 'Inventory',
-          headerRight: () => (
-            <Button
-              icon={<Plus size={22} color="black" />}
-              onPress={() => router.push('/(main)/inventory/add-item')}
-            />
-          ),
-        }}
-      />
-      <Stack.Screen
-        name="add-item"
-        options={{
-          title: 'Add Item',
+          title: 'Analytics',
         }}
       />
     </Stack>
