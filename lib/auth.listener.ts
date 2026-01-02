@@ -1,5 +1,5 @@
 import { supabase } from '@/lib/supabase';
-import { useAuthStore } from '@/store/auth.store';
+import { useAuthStore } from '@/store/auth';
 
 export const initAuthListener = () => {
   const setSession = useAuthStore.getState().setSession;

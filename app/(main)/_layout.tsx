@@ -1,8 +1,8 @@
+import { useAuthStore } from '@/store/auth';
 import { Redirect, Tabs } from 'expo-router';
+import { BarChart3, Package, User } from 'lucide-react-native';
 import { ActivityIndicator, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useAuthStore } from '@/store/auth.store';
-import { Package, BarChart3, User } from 'lucide-react-native';
 
 const MainLayout = () => {
   const { session, isLoading } = useAuthStore();
@@ -53,11 +53,10 @@ const MainLayout = () => {
         />
 
         <Tabs.Screen
-          name="profile/index"
+          name="profile"
           options={{
             title: 'Profile',
             tabBarLabel: 'Profile',
-            headerShown: true,
             tabBarIcon: ({ color, size }) => (
               <User color={color} size={size} />
             ),

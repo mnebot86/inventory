@@ -1,6 +1,6 @@
+import { useAuthStore } from '@/store/auth';
 import { Redirect, Slot } from 'expo-router';
-import { useAuthStore } from '@/store/auth.store';
-import { View, Text, ActivityIndicator } from 'react-native';
+import { ActivityIndicator, Text, View } from 'react-native';
 
 const AuthLayout = () => {
   const { session, isLoading } = useAuthStore();

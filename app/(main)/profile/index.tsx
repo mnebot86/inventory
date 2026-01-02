@@ -1,48 +1,64 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View, ScrollView } from 'react-native';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { layout } from '@/styles/layout';
 import { Button } from '@/components/themed-button';
-import { supabase } from '@/lib/supabase';
+import { useAuthStore } from '@/store/auth';
+import { useRouter } from 'expo-router';
 
 const ProfileScreen = () => {
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-  };
+  const { session, signOut } = useAuthStore();
+  const router = useRouter();
 
   return (
-    <ThemedView style={layout.screen}>
-      <ThemedView style={styles.container}>
-        <ThemedText type="title">Profile</ThemedText>
+    <ScrollView
+      contentContainerStyle={layout.screen}
+      contentInsetAdjustmentBehavior="automatic">
+      <ThemedView style={styles.card}>
+        <ThemedText type="title">Account</ThemedText>
 
-        <ThemedText style={styles.subtitle}>
-          Account & Settings
+        <ThemedText style={styles.label}>Email</ThemedText>
+        <ThemedText style={styles.value}>
+          {session?.user?.email ?? 'Unknown'}
         </ThemedText>
-
-        <ThemedText style={styles.helper}>
-          More account options will be available here in the future.
-        </ThemedText>
-
-        <Button title="Log out" onPress={handleLogout} />
       </ThemedView>
-    </ThemedView>
+
+      <ThemedView style={styles.card}>
+        <ThemedText style={{ marginBottom: 12 }} type="subtitle">Actions</ThemedText>
+
+        <Button
+          title="Change password"
+          onPress={() => router.push('/(main)/profile/change-password')}
+          style={{ marginBottom: 12 }}
+        />
+
+        <Button
+          title="Log out"
+          variant="danger"
+          onPress={signOut}
+        />
+      </ThemedView>
+    </ScrollView>
   );
 };
 
 export default ProfileScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    gap: 16,
+  card: {
+    borderRadius: 16,
+    padding: 16,
+    marginBottom: 16,
+    backgroundColor: 'rgba(0,0,0,0.05)',
   },
-  subtitle: {
+  label: {
+    marginTop: 12,
+    fontSize: 14,
+    opacity: 0.6,
+  },
+  value: {
     fontSize: 16,
     fontWeight: '500',
-  },
-  helper: {
-    fontSize: 14,
-    opacity: 0.7,
+    marginTop: 4,
   },
 });
